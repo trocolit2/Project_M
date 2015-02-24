@@ -1,0 +1,9 @@
+// the configured options and settings
+
+
+#define PROJECT_NAME @main_project_name@
+
+#define MAIN_VERSION @main_version@
+#define FUNCTION_VERSION @fuction_version@
+#define PATCH_RELEASE @patch_release@
+

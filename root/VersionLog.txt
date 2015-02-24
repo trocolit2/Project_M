@@ -1,0 +1,8 @@
+#########################
+## VERSION LOG CONTROL ##
+#########################
+
+0.1.3
+Inicio da Implementação da detecção dos pontos de fuga.
+Implementação do histograma angular do Stixeis 2D.
+
