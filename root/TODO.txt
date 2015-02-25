@@ -1,0 +1,7 @@
+#########################
+## VERSION LOG CONTROL ##
+#########################
+
+LIST
+- Corrigir os erros de precisão nos testes do StixelTools_test.
+- Corrigir os erros de BackGroundSubtraction_test.

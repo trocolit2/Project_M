@@ -297,7 +297,7 @@ BOOST_AUTO_TEST_CASE(gethistogramAngleIntervalTestCase) {
 	StixelTools::extractStixelFromBackground(testImage, &stixeis);
 
 	std::vector<uint> hist = StixelTools::histogramAngleStixel2D(stixeis, 18,
-			&testImage.clone());
+			&testImage);
 
 	std::vector<Stixel2D> stixeis1, stixeis2, stixeis3, residual;
 

@@ -1,13 +1,18 @@
 cmake_minimum_required(VERSION 2.8)
+
+#if(APPLE)
+#    set(CMAKE_C_COMPILER "gcc")
+#    set(CMAKE_CXX_COMPILER "g++")
+#endif(APPLE)
+
 project(SurveilanceCameraCalibration)
 
 ######################
 ## PROJECT SETTINGS ##
 ######################
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Weffc++ -pedantic -std=c++0x")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fpermissive -std=c++0x -std=c++11")
-ADD_DEFINITIONS(-Wno-variadic-macros -Wno-long-long -Wall -Wextra -Winit-self -Woverloaded-virtual -Wsign-promo -Wno-unused-parameter -pedantic -Woverloaded-virtual -Wno-unknown-pragmas)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x ") # -fpermissive
+#ADD_DEFINITIONS(-Wno-variadic-macros -Wno-long-long -Wall -Wextra -Winit-self -Woverloaded-virtual -Wsign-promo -Wno-unused-parameter -pedantic -Woverloaded-virtual -Wno-unknown-pragmas -Waddress-of-temporary)
 
 ## DEFINE MAIN PATHS
 set(bin_path ${PROJECT_BINARY_DIR}/bin)
@@ -29,7 +34,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${bin_path})
 set(main_project_name "\"AS2C - Automatic Surveillance Camera Calibtration\"" )
 set(main_version 0)
 set(fuction_version 1)
-set(patch_release 3)
+set(patch_release 4)
 
 ## include CONFIGURE MAIN PATHS
 include_directories(${include_build_path})

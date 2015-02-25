@@ -6,3 +6,9 @@
 Inicio da Implementação da detecção dos pontos de fuga.
 Implementação do histograma angular do Stixeis 2D.
 
+0.1.4
+Versionamento do projeto pelo GITHUB
+Correção de problema de compatibilidade do código
+Adicionado arquivo de TODO
+
+
