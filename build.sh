@@ -11,6 +11,14 @@ var_cmake="cmake"
 
 echo " ## Start build project $var_folderName ## "
 
+if [ ! -d "build" ];
+then
+	echo "FOLDER BUILD DO NOT EXIST"
+	echo "MAKE DIR BUILD"
+	mkdir build
+	echo "FOLDER BUILD MADE"
+fi
+
 
 cd build
 
