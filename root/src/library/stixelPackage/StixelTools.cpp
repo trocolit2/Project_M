@@ -12,18 +12,15 @@
 
 #define minNumber
 
-cv::Mat StixelTools::extractStixelFromForeground(cv::Mat foreground,
-		std::vector<Stixel2D>* stixeis, uint64 minPoints, cv::Mat showImage) {
+cv::Mat StixelTools::extractStixelFromForeground(cv::Mat foreground, std::vector<Stixel2D>* stixeis, uint64 minPoints, cv::Mat showImage) {
 
 	std::vector<Stixel2D> tempStixeis;
 	std::vector<std::vector<cv::Point> > contours;
-	bool draw = showImage.cols > 4 && showImage.rows > 4
-			&& showImage.channels() == 3;
+	bool draw = showImage.cols > 4 && showImage.rows > 4 && showImage.channels() == 3;
 
 	cv::Mat tempImage = showImage.clone();
 
-	cv::findContours(foreground.clone(), contours, CV_RETR_EXTERNAL,
-			CV_CHAIN_APPROX_NONE);
+	cv::findContours(foreground.clone(), contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
 
 	if (minPoints > 0)
 		contours = filterByNumberPoints(contours, minPoints);
@@ -42,10 +39,8 @@ cv::Mat StixelTools::extractStixelFromForeground(cv::Mat foreground,
 		stixeis->push_back(stixel);
 
 		if (draw) {
-			cv::line(tempImage, min, max,
-					LineTools::colorAngle(stixel.getAngle()));
-			cv::circle(tempImage, roteRect.center, stixel.getSize() * 0.03,
-					cv::Scalar(255, 255, 0), -1);
+			cv::line(tempImage, min, max, LineTools::colorAngle(stixel.getAngle()));
+			cv::circle(tempImage, roteRect.center, stixel.getSize() * 0.03, cv::Scalar(255, 255, 0), -1);
 		}
 	}
 
@@ -56,29 +51,24 @@ cv::Mat StixelTools::extractStixelFromForeground(cv::Mat foreground,
 	return tempImage;
 }
 
-cv::Mat StixelTools::extractStixelFromBackground(cv::Mat background,
-		std::vector<Stixel2D>* stixeis, cv::Mat showImage) {
+cv::Mat StixelTools::extractStixelFromBackground(cv::Mat background, std::vector<Stixel2D>* stixeis, cv::Mat showImage) {
 
 	cv::Mat tempImage = background.clone();
 	std::vector<Stixel2D> tempStixeis = getStixelFromLSD(background.clone());
 
-	bool draw = showImage.cols > 4 && showImage.rows > 4
-			&& showImage.channels() == 3;
+	bool draw = showImage.cols > 4 && showImage.rows > 4 && showImage.channels() == 3;
 
 	if (draw) {
 		std::cout << "SIZE STIXEIS " << tempStixeis.size() << std::endl;
 		for (uint64 i = 0; i < tempStixeis.size(); ++i)
-			cv::line(showImage, tempStixeis[i].getBottonPoint(),
-					tempStixeis[i].getTopPoint(),
-					LineTools::colorAngle(tempStixeis[i].getAngle()));
+			cv::line(showImage, tempStixeis[i].getBottonPoint(), tempStixeis[i].getTopPoint(), LineTools::colorAngle(tempStixeis[i].getAngle()));
 	}
 
 	stixeis->insert(stixeis->begin(), tempStixeis.begin(), tempStixeis.end());
 	return showImage;
 }
 
-std::vector<std::vector<cv::Point> > StixelTools::filterByNumberPoints(
-		std::vector<std::vector<cv::Point> > contours, uint64 numberPoints) {
+std::vector<std::vector<cv::Point> > StixelTools::filterByNumberPoints(std::vector<std::vector<cv::Point> > contours, uint64 numberPoints) {
 
 	std::vector<std::vector<cv::Point> > temp;
 	for (uint64 k = 0; k < contours.size(); ++k)
@@ -115,8 +105,7 @@ std::vector<Stixel2D> StixelTools::getStixelFromLSD(cv::Mat background) {
 	/* print output */
 	//printf("%d line segments found:\n", n);
 	for (i = 0; i < n; i++) {
-		cv::Point2f point1(out[7 * i + 0], out[7 * i + 1]), point2(
-				out[7 * i + 2], out[7 * i + 3]);
+		cv::Point2f point1(out[7 * i + 0], out[7 * i + 1]), point2(out[7 * i + 2], out[7 * i + 3]);
 
 		Stixel2D stixel(point1, point2);
 		stixeis.push_back(stixel);
@@ -129,8 +118,7 @@ std::vector<Stixel2D> StixelTools::getStixelFromLSD(cv::Mat background) {
 
 }
 
-std::vector<uint> StixelTools::histogramAngleStixel2D(
-		std::vector<Stixel2D> stixeis, uint beans, cv::Mat* image) {
+std::vector<uint> StixelTools::histogramAngleStixel2D(std::vector<Stixel2D> stixeis, uint beans, cv::Mat* image) {
 
 	std::vector<uint> histVector(beans, 0);
 	double slope = beans * 1.0 / 180.0;
@@ -156,11 +144,9 @@ std::vector<uint> StixelTools::histogramAngleStixel2D(
 	return histVector;
 }
 
-cv::Mat StixelTools::drawHistogramAngleStixel2D(std::vector<uint> histogram,
-		cv::Size size) {
+cv::Mat StixelTools::drawHistogramAngleStixel2D(std::vector<uint> histogram, cv::Size size) {
 
-	cv::Mat histImage = cv::Mat::zeros(size, CV_8UC3)
-			+ cv::Scalar(255, 255, 255);
+	cv::Mat histImage = cv::Mat::zeros(size, CV_8UC3) + cv::Scalar(255, 255, 255);
 
 	cv::Mat histMat(1, histogram.size(), CV_32SC1);
 	for (uint i = 0; i < histogram.size(); ++i) {
@@ -177,17 +163,13 @@ cv::Mat StixelTools::drawHistogramAngleStixel2D(std::vector<uint> histogram,
 	for (uint i = 0; i < histogram.size(); ++i) {
 		cv::Scalar color = LineTools::colorAngle(i * angleSlice);
 		cv::Point pt1 = cv::Point(i * beanSize, size.height - 1);
-		cv::Point pt2 = cv::Point(i * beanSize + beanSize,
-				size.height - histogram[i] * highNorm);
+		cv::Point pt2 = cv::Point(i * beanSize + beanSize, size.height - histogram[i] * highNorm);
 		cv::rectangle(histImage, pt1, pt2, color, -1);
 	}
 	return histImage;
 }
 
-std::vector<Stixel2D> StixelTools::gethistogramAngleInterval(
-		std::vector<Stixel2D> mainVector, std::vector<uint> histogram,
-		uint midleBean, uint intevalSides,
-		std::vector<Stixel2D>* residualVector) {
+std::vector<Stixel2D> StixelTools::gethistogramAngleInterval(std::vector<Stixel2D> mainVector, std::vector<uint> histogram, uint midleBean, uint intevalSides, std::vector<Stixel2D>* residualVector) {
 
 	std::vector<Stixel2D> result;
 	double beanSize = 180.0 / histogram.size();
@@ -201,15 +183,13 @@ std::vector<Stixel2D> StixelTools::gethistogramAngleInterval(
 	maxBean *= beanSize;
 	if (normalWay) {
 		for (uint i = 0; i < mainVector.size(); ++i)
-			if (mainVector[i].getAngle() < maxBean
-					&& mainVector[i].getAngle() >= minBean)
+			if (mainVector[i].getAngle() < maxBean && mainVector[i].getAngle() >= minBean)
 				result.push_back(mainVector[i]);
 			else if (residualVector != 0)
 				(*residualVector).push_back(mainVector[i]);
 	} else {
 		for (uint i = 0; i < mainVector.size(); ++i)
-			if (mainVector[i].getAngle() < maxBean
-					|| mainVector[i].getAngle() >= minBean)
+			if (mainVector[i].getAngle() < maxBean || mainVector[i].getAngle() >= minBean)
 				result.push_back(mainVector[i]);
 			else if (residualVector != 0)
 				(*residualVector).push_back(mainVector[i]);
@@ -218,9 +198,7 @@ std::vector<Stixel2D> StixelTools::gethistogramAngleInterval(
 	return result;
 }
 
-std::vector<Stixel2D> StixelTools::getMaxBeanAngleInteval(
-		std::vector<Stixel2D> mainVector, std::vector<uint> histogram,
-		uint intervalSides, std::vector<Stixel2D>* residualVector) {
+std::vector<Stixel2D> StixelTools::getMaxBeanAngleInteval(std::vector<Stixel2D> mainVector, std::vector<uint> histogram, uint intervalSides, std::vector<Stixel2D>* residualVector) {
 
 	cv::Mat histMat(1, histogram.size(), CV_32SC1);
 	for (uint i = 0; i < histogram.size(); ++i) {
@@ -231,6 +209,10 @@ std::vector<Stixel2D> StixelTools::getMaxBeanAngleInteval(
 	double maxValue;
 	cv::minMaxLoc(histMat, 0, &maxValue, 0, &maxPosition);
 
-	return gethistogramAngleInterval(mainVector, histogram, maxPosition.x,
-			intervalSides, residualVector);
+	return gethistogramAngleInterval(mainVector, histogram, maxPosition.x, intervalSides, residualVector);
+}
+
+std::vector<std::vector<Stixel2D> > StixelTools::getMaxBeanAngleIntevalsAdaptative(std::vector<Stixel2D> mainVector, std::vector<uint> histogram, uint maxBeans,
+		std::vector<Stixel2D>* residualVector) {
+
 }

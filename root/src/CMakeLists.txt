@@ -6,7 +6,7 @@
 ## LIBRARYS AND CLASS SESSION ##
 ################################
 
-find_package(OpenCV REQUIRED )
+find_package(OpenCV REQUIRED)
 find_package(Boost COMPONENTS regex REQUIRED)
 include_directories (${Boost_INCLUDE_DIRS})
 set(SOURCE_LIBS_LOCAL ${OpenCV_LIBS} ${Boost_REGEX_LIBRARY})
