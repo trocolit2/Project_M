@@ -25,7 +25,7 @@ public:
 
 	static std::vector<Stixel2D> getMaxBeanAngleInteval(std::vector<Stixel2D> mainVector, std::vector<uint> histogram, uint intevalSides, std::vector<Stixel2D>* residualVector = 0);
 
-	static std::vector<std::vector<Stixel2D> > getMaxBeanAngleIntevalsAdaptative(std::vector<Stixel2D> mainVector, std::vector<uint> histogram, uint maxBeans,
+	static std::vector<Stixel2D> getMaxBeanAngleIntevalsAdaptative(std::vector<Stixel2D> mainVector, std::vector<uint> histogram,
 			std::vector<Stixel2D>* residualVector = 0);
 
 private:

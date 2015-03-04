@@ -39,8 +39,7 @@
 // EXTRACT STIXEL FROM FOREGROUND
 //*******************************
 
-std::vector<Stixel2D> reduceVectorStixel2DPrecision(
-		std::vector<Stixel2D> vector, int precision = 3) {
+std::vector<Stixel2D> reduceVectorStixel2DPrecision(std::vector<Stixel2D> vector, int precision = 3) {
 	std::vector<Stixel2D> temp;
 	for (uint64 j = 0; j < vector.size(); ++j) {
 		cv::Point2d p1, p2;
@@ -56,36 +55,13 @@ std::vector<Stixel2D> reduceVectorStixel2DPrecision(
 
 std::vector<Stixel2D> extractStixelFromForegroundGT() {
 
-	std::vector<Stixel2D> vectorGT =
-			{ Stixel2D(cv::Point2d(209.153, 507.74),
-					cv::Point2d(164.107, 335.456)), Stixel2D(
-					cv::Point2d(397.491, 163.577),
-					cv::Point2d(397.746, 123.124)), Stixel2D(
-					cv::Point2d(504.355, 172.357),
-					cv::Point2d(505.777, 121.127)), Stixel2D(
-					cv::Point2d(344.762, 148.146),
-					cv::Point2d(339.655, 119.84)), Stixel2D(
-					cv::Point2d(369.734, 163.843),
-					cv::Point2d(376.917, 114.163)), Stixel2D(
-					cv::Point2d(26.158, 271.657), cv::Point2d(22.204, 112.825)),
-					Stixel2D(cv::Point2d(132.026, 196.576),
-							cv::Point2d(121.467, 105.654)), Stixel2D(
-							cv::Point2d(696.435, 545.242),
-							cv::Point2d(639.709, 398.6)), Stixel2D(
-							cv::Point2d(46.386, 405.003),
-							cv::Point2d(39.884, 321.415)), Stixel2D(
-							cv::Point2d(178.777, 366.744),
-							cv::Point2d(166.449, 311.485)), Stixel2D(
-							cv::Point2d(396.329, 373.562),
-							cv::Point2d(412.882, 298.981)), Stixel2D(
-							cv::Point2d(378.744, 315.884),
-							cv::Point2d(364.901, 276.478)), Stixel2D(
-							cv::Point2d(344.21, 295.087),
-							cv::Point2d(336.356, 268.301)), Stixel2D(
-							cv::Point2d(340.018, 495.152),
-							cv::Point2d(343.654, 339.896)), Stixel2D(
-							cv::Point2d(41.892, 363.732),
-							cv::Point2d(34.123, 257.124)) };
+	std::vector<Stixel2D> vectorGT = { Stixel2D(cv::Point2d(209.153, 507.74), cv::Point2d(164.107, 335.456)), Stixel2D(cv::Point2d(397.491, 163.577), cv::Point2d(397.746, 123.124)), Stixel2D(
+			cv::Point2d(504.355, 172.357), cv::Point2d(505.777, 121.127)), Stixel2D(cv::Point2d(344.762, 148.146), cv::Point2d(339.655, 119.84)), Stixel2D(cv::Point2d(369.734, 163.843),
+			cv::Point2d(376.917, 114.163)), Stixel2D(cv::Point2d(26.158, 271.657), cv::Point2d(22.204, 112.825)), Stixel2D(cv::Point2d(132.026, 196.576), cv::Point2d(121.467, 105.654)), Stixel2D(
+			cv::Point2d(696.435, 545.242), cv::Point2d(639.709, 398.6)), Stixel2D(cv::Point2d(46.386, 405.003), cv::Point2d(39.884, 321.415)), Stixel2D(cv::Point2d(178.777, 366.744),
+			cv::Point2d(166.449, 311.485)), Stixel2D(cv::Point2d(396.329, 373.562), cv::Point2d(412.882, 298.981)), Stixel2D(cv::Point2d(378.744, 315.884), cv::Point2d(364.901, 276.478)), Stixel2D(
+			cv::Point2d(344.21, 295.087), cv::Point2d(336.356, 268.301)), Stixel2D(cv::Point2d(340.018, 495.152), cv::Point2d(343.654, 339.896)), Stixel2D(cv::Point2d(41.892, 363.732),
+			cv::Point2d(34.123, 257.124)) };
 	return vectorGT;
 }
 
@@ -103,16 +79,14 @@ BOOST_AUTO_TEST_CASE(extractStixelFromForegroundTestCase) {
 	std::string path_resource = STIXEL_RESOURCE_PATH;
 
 	for (int i = 0; i < sizePaths; ++i) {
-		cv::Mat testImage = cv::imread(path + path_resource + paths[i],
-				CV_LOAD_IMAGE_GRAYSCALE);
+		cv::Mat testImage = cv::imread(path + path_resource + paths[i], CV_LOAD_IMAGE_GRAYSCALE);
 		testImage = testImage > 200;
 		StixelTools::extractStixelFromForeground(testImage, &vector);
 	}
 
 	temp = reduceVectorStixel2DPrecision(vector, 3);
 	vector = extractStixelFromForegroundGT();
-	BOOST_CHECK_EQUAL_COLLECTIONS(temp.begin(), temp.end(), vector.begin(),
-			vector.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(temp.begin(), temp.end(), vector.begin(), vector.end());
 
 }
 
@@ -120,8 +94,7 @@ BOOST_AUTO_TEST_CASE(extractStixelFromForegroundTestCase) {
 // EXTRACT STIXEL FROM BACKGROUND
 //*******************************
 
-void checkVectorStixeis2DBackground(std::string inputPath,
-		std::vector<Stixel2D> vectorGT) {
+void checkVectorStixeis2DBackground(std::string inputPath, std::vector<Stixel2D> vectorGT) {
 
 	std::vector<Stixel2D> vector, temp;
 	std::string path = PATH_RELATIVE_ROOT_TESTBIN;
@@ -140,8 +113,7 @@ void checkVectorStixeis2DBackground(std::string inputPath,
 		temp.push_back(stixel);
 	}
 
-	BOOST_CHECK_EQUAL_COLLECTIONS(temp.begin(), temp.begin() + 5,
-			vectorGT.begin(), vectorGT.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(temp.begin(), temp.begin() + 5, vectorGT.begin(), vectorGT.end());
 }
 
 std::vector<std::vector<Stixel2D> > extractStixelFromBackgroundGT() {
@@ -205,11 +177,9 @@ BOOST_AUTO_TEST_CASE(histogramAngleStixel2DSimpleTestCase) {
 	stixeis1.push_back(Stixel2D(cv::Point2d(0, 0), cv::Point2d(1, 1)));
 
 	std::vector<uint> out = StixelTools::histogramAngleStixel2D(stixeis1, 18);
-	std::vector<uint> gtOut = { 2, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0,
-			0, 0 };
+	std::vector<uint> gtOut = { 2, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-	BOOST_CHECK_EQUAL_COLLECTIONS(out.begin(), out.end(), gtOut.begin(),
-			gtOut.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(out.begin(), out.end(), gtOut.begin(), gtOut.end());
 }
 
 BOOST_AUTO_TEST_CASE(histogramAngleStixel2DTestCase) {
@@ -224,8 +194,7 @@ BOOST_AUTO_TEST_CASE(histogramAngleStixel2DTestCase) {
 	StixelTools::extractStixelFromBackground(testImage, &stixeis1);
 
 	std::vector<uint> out = StixelTools::histogramAngleStixel2D(stixeis1, 18);
-	std::vector<uint> gtOut = { 119, 60, 17, 3, 4, 7, 6, 34, 327, 43, 3, 4, 2,
-			6, 4, 8, 39, 95 };
+	std::vector<uint> gtOut = { 119, 60, 17, 3, 4, 7, 6, 34, 327, 43, 3, 4, 2, 6, 4, 8, 39, 95 };
 
 	stixelTotal = stixeis1.size();
 
@@ -234,8 +203,7 @@ BOOST_AUTO_TEST_CASE(histogramAngleStixel2DTestCase) {
 
 	BOOST_CHECK_EQUAL(0, stixelTotal);
 
-	BOOST_CHECK_EQUAL_COLLECTIONS(out.begin(), out.end(), gtOut.begin(),
-			gtOut.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(out.begin(), out.end(), gtOut.begin(), gtOut.end());
 }
 
 BOOST_AUTO_TEST_CASE(histogramAngleStixel2DDrawTestCase) {
@@ -248,12 +216,9 @@ BOOST_AUTO_TEST_CASE(histogramAngleStixel2DDrawTestCase) {
 	cv::Mat testImage = cv::imread(path + path_resource + inputPath);
 	StixelTools::extractStixelFromBackground(testImage, &stixeis1);
 
-	cv::Mat gtImageHist10Beans = cv::imread(
-			path + path_resource + "histAngleStixel2D10Beans.jpeg");
-	cv::Mat gtImageHist20Beans = cv::imread(
-			path + path_resource + "histAngleStixel2D20Beans.jpeg");
-	cv::Mat gtImageHist180Beans = cv::imread(
-			path + path_resource + "histAngleStixel2D180Beans.jpeg");
+	cv::Mat gtImageHist10Beans = cv::imread(path + path_resource + "histAngleStixel2D10Beans.jpeg");
+	cv::Mat gtImageHist20Beans = cv::imread(path + path_resource + "histAngleStixel2D20Beans.jpeg");
+	cv::Mat gtImageHist180Beans = cv::imread(path + path_resource + "histAngleStixel2D180Beans.jpeg");
 
 	cv::Mat bigImage;
 	std::string nameImage = "actualHistogram.jpeg";
@@ -296,37 +261,27 @@ BOOST_AUTO_TEST_CASE(gethistogramAngleIntervalTestCase) {
 	cv::Mat testImage = cv::imread(path + path_resource + inputPath);
 	StixelTools::extractStixelFromBackground(testImage, &stixeis);
 
-	std::vector<uint> hist = StixelTools::histogramAngleStixel2D(stixeis, 18,
-			&testImage);
+	std::vector<uint> hist = StixelTools::histogramAngleStixel2D(stixeis, 18, &testImage);
 
 	std::vector<Stixel2D> stixeis1, stixeis2, stixeis3, residual;
 
 	stixeis1 = StixelTools::gethistogramAngleInterval(stixeis, hist, 9, 2);
 	stixeis2 = StixelTools::gethistogramAngleInterval(stixeis, hist, 0, 2);
-	stixeis3 = StixelTools::gethistogramAngleInterval(stixeis, hist, 17, 2,
-			&residual);
+	stixeis3 = StixelTools::gethistogramAngleInterval(stixeis, hist, 17, 2, &residual);
 
 	std::vector<uint> hist1 = StixelTools::histogramAngleStixel2D(stixeis1, 18);
 	std::vector<uint> hist2 = StixelTools::histogramAngleStixel2D(stixeis2, 18);
 	std::vector<uint> hist3 = StixelTools::histogramAngleStixel2D(stixeis3, 18);
 	std::vector<uint> hist4 = StixelTools::histogramAngleStixel2D(residual, 18);
 
-	std::vector<uint> gtHist1 = { 0, 0, 0, 0, 0, 0, 0, 34, 327, 43, 3, 4, 0, 0,
-			0, 0, 0, 0 };
-	std::vector<uint> gtHist2 = { 119, 60, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 39, 95 };
-	std::vector<uint> gtHist3 = { 119, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 8, 39, 95 };
-	std::vector<uint> gtHist4 = { 0, 0, 17, 3, 4, 7, 6, 34, 327, 43, 3, 4, 2, 6,
-			4, 0, 0, 0 };
-	BOOST_CHECK_EQUAL_COLLECTIONS(hist1.begin(), hist1.end(), gtHist1.begin(),
-			gtHist1.end());
-	BOOST_CHECK_EQUAL_COLLECTIONS(hist2.begin(), hist2.end(), gtHist2.begin(),
-			gtHist2.end());
-	BOOST_CHECK_EQUAL_COLLECTIONS(hist3.begin(), hist3.end(), gtHist3.begin(),
-			gtHist3.end());
-	BOOST_CHECK_EQUAL_COLLECTIONS(hist4.begin(), hist4.end(), gtHist4.begin(),
-			gtHist4.end());
+	std::vector<uint> gtHist1 = { 0, 0, 0, 0, 0, 0, 0, 34, 327, 43, 3, 4, 0, 0, 0, 0, 0, 0 };
+	std::vector<uint> gtHist2 = { 119, 60, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 39, 95 };
+	std::vector<uint> gtHist3 = { 119, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 39, 95 };
+	std::vector<uint> gtHist4 = { 0, 0, 17, 3, 4, 7, 6, 34, 327, 43, 3, 4, 2, 6, 4, 0, 0, 0 };
+	BOOST_CHECK_EQUAL_COLLECTIONS(hist1.begin(), hist1.end(), gtHist1.begin(), gtHist1.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(hist2.begin(), hist2.end(), gtHist2.begin(), gtHist2.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(hist3.begin(), hist3.end(), gtHist3.begin(), gtHist3.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(hist4.begin(), hist4.end(), gtHist4.begin(), gtHist4.end());
 }
 
 BOOST_AUTO_TEST_CASE(getMaxBeanAngleIntevalTestCase) {
@@ -344,9 +299,38 @@ BOOST_AUTO_TEST_CASE(getMaxBeanAngleIntevalTestCase) {
 	stixeis1 = StixelTools::getMaxBeanAngleInteval(stixeis, hist, 4);
 	std::vector<uint> hist1 = StixelTools::histogramAngleStixel2D(stixeis1, 18);
 
-	std::vector<uint> gtHist1 = { 0, 0, 0, 0, 4, 7, 6, 34, 327, 43, 3, 4, 2, 0,
-			0, 0, 0, 0 };
+	std::vector<uint> gtHist1 = { 0, 0, 0, 0, 4, 7, 6, 34, 327, 43, 3, 4, 2, 0, 0, 0, 0, 0 };
 
-	BOOST_CHECK_EQUAL_COLLECTIONS(gtHist1.begin(), gtHist1.end(), hist1.begin(),
-			hist1.end());
+	BOOST_CHECK_EQUAL_COLLECTIONS(gtHist1.begin(), gtHist1.end(), hist1.begin(), hist1.end());
 }
+
+BOOST_AUTO_TEST_CASE(getMaxBeanAngleIntevalsAdaptativeTestCase) {
+
+	std::vector<Stixel2D> stixeis, stixeis1, stixeis2, residual, residual2;
+	std::string path = PATH_RELATIVE_ROOT_TESTBIN;
+	std::string path_resource = STIXEL_RESOURCE_PATH;
+	std::string inputPath = BACKGROUND_IMAGE_01;
+
+	cv::Mat testImage = cv::imread(path + path_resource + inputPath);
+	StixelTools::extractStixelFromBackground(testImage, &stixeis);
+
+	cv::Mat histIm1;
+	std::vector<uint> hist = StixelTools::histogramAngleStixel2D(stixeis, 18, &histIm1);
+	cv::imshow("HIST1", histIm1);
+
+	stixeis1 = StixelTools::getMaxBeanAngleIntevalsAdaptative(stixeis, hist, &residual);
+	std::vector<uint> hist1 = StixelTools::histogramAngleStixel2D(stixeis1, 18, &histIm1);
+	cv::imshow("HIST2", histIm1);
+
+	std::vector<uint> resid = StixelTools::histogramAngleStixel2D(residual, 18, &histIm1);
+	cv::imshow("Resid2", histIm1);
+
+	stixeis2 = StixelTools::getMaxBeanAngleIntevalsAdaptative(residual, resid, &residual2);
+	std::vector<uint> hist2 = StixelTools::histogramAngleStixel2D(stixeis2, 18, &histIm1);
+
+	cv::imshow("RESIDUAL", histIm1);
+
+	cv::waitKey();
+
+}
+

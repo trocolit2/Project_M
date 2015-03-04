@@ -212,7 +212,51 @@ std::vector<Stixel2D> StixelTools::getMaxBeanAngleInteval(std::vector<Stixel2D> 
 	return gethistogramAngleInterval(mainVector, histogram, maxPosition.x, intervalSides, residualVector);
 }
 
-std::vector<std::vector<Stixel2D> > StixelTools::getMaxBeanAngleIntevalsAdaptative(std::vector<Stixel2D> mainVector, std::vector<uint> histogram, uint maxBeans,
-		std::vector<Stixel2D>* residualVector) {
+std::vector<Stixel2D> StixelTools::getMaxBeanAngleIntevalsAdaptative(std::vector<Stixel2D> mainVector, std::vector<uint> histogram, std::vector<Stixel2D>* residualVector) {
 
+	cv::Mat histMat(1, histogram.size(), CV_32SC1);
+	for (uint i = 0; i < histogram.size(); ++i) {
+		histMat.at<uint>(0, i) = histogram[i];
+	}
+
+	cv::Point maxPosition;
+	double maxValue;
+	cv::minMaxLoc(histMat, 0, &maxValue, 0, &maxPosition);
+
+	std::cout << "OUTPUT MAX " << maxPosition.x << std::endl;
+
+	uint leftValue;
+	maxPosition.x - 1 < 0 ? leftValue = histogram[histogram.size() - 1] : leftValue = histogram[maxPosition.x - 1];
+
+	uint rightValue = histogram[(maxPosition.x + 1)% histogram.size()];
+	uint histogramHalfSize = histogram.size() / 2;
+	uint intervalSize = 1;
+
+	int leftIncrement = maxPosition.x - 1;
+	int rightIncrement = maxPosition.x + 1;
+
+	while (intervalSize < histogramHalfSize) {
+		rightIncrement += 1;
+		rightIncrement = rightIncrement % histogram.size();
+		leftIncrement -= 1;
+		leftIncrement < 0 ? leftIncrement = histogram.size() - 1 : 0;
+
+		std::cout << "Actual left " << histogram[leftIncrement] << " hist Left " << leftValue << std::endl;
+		if (histogram[leftIncrement] > leftValue) {
+			break;
+		} else {
+			leftValue = histogram[leftIncrement];
+		}
+
+		std::cout << "Actual right " << histogram[rightIncrement] << " hist RIGHT " << rightValue << std::endl;
+		if (histogram[rightIncrement] > rightValue) {
+			break;
+		} else {
+			rightValue = histogram[rightIncrement];
+		}
+		++intervalSize;
+	}
+
+	std::cout << "Interval " << intervalSize << std::endl;
+	return gethistogramAngleInterval(mainVector, histogram, maxPosition.x, intervalSize, residualVector);
 }
