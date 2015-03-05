@@ -306,31 +306,45 @@ BOOST_AUTO_TEST_CASE(getMaxBeanAngleIntevalTestCase) {
 
 BOOST_AUTO_TEST_CASE(getMaxBeanAngleIntevalsAdaptativeTestCase) {
 
-	std::vector<Stixel2D> stixeis, stixeis1, stixeis2, residual, residual2;
 	std::string path = PATH_RELATIVE_ROOT_TESTBIN;
 	std::string path_resource = STIXEL_RESOURCE_PATH;
-	std::string inputPath = BACKGROUND_IMAGE_01;
 
-	cv::Mat testImage = cv::imread(path + path_resource + inputPath);
-	StixelTools::extractStixelFromBackground(testImage, &stixeis);
+	std::vector<std::string> strVector(4);
+	strVector[0] = BACKGROUND_IMAGE_01;
+	strVector[1] = BACKGROUND_IMAGE_02;
+	strVector[2] = BACKGROUND_IMAGE_03;
+	strVector[3] = BACKGROUND_IMAGE_04;
 
-	cv::Mat histIm1;
-	std::vector<uint> hist = StixelTools::histogramAngleStixel2D(stixeis, 18, &histIm1);
-	cv::imshow("HIST1", histIm1);
+	std::vector<std::vector<uint> > vector1(4);
+	vector1[0]= {0, 0, 0, 0, 0, 0, 6, 34, 327, 43, 3, 0, 0, 0, 0, 0, 0, 0};
+	vector1[1]= {0, 0, 0, 0, 0, 1, 1, 3, 100, 89, 10, 2, 0, 0, 0, 0, 0, 0};
+	vector1[2]= {0, 0, 0, 0, 0, 0, 0, 3, 52, 182, 8, 5, 0, 0, 0, 0, 0, 0};
+	vector1[3]= {0, 0, 0, 0, 0, 0, 0, 3, 36, 126, 8, 1, 0, 0, 0, 0, 0, 0};
 
-	stixeis1 = StixelTools::getMaxBeanAngleIntevalsAdaptative(stixeis, hist, &residual);
-	std::vector<uint> hist1 = StixelTools::histogramAngleStixel2D(stixeis1, 18, &histIm1);
-	cv::imshow("HIST2", histIm1);
+	std::vector<std::vector<uint> > vector2(4);
+	vector2[0]= {119, 60, 17, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 39, 95};
+	vector2[1]= {88, 14, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 78};
+	vector2[2]= {83, 37, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 13, 75};
+	vector2[3]= {105, 28, 21, 14, 5, 3, 2, 0, 0, 0, 0, 0, 3, 3, 5, 17, 20, 78};
 
-	std::vector<uint> resid = StixelTools::histogramAngleStixel2D(residual, 18, &histIm1);
-	cv::imshow("Resid2", histIm1);
+	for (uint i = 0; i < strVector.size(); ++i) {
+		std::vector<Stixel2D> stixeis, stixeis1, stixeis2, residual, residual2;
 
-	stixeis2 = StixelTools::getMaxBeanAngleIntevalsAdaptative(residual, resid, &residual2);
-	std::vector<uint> hist2 = StixelTools::histogramAngleStixel2D(stixeis2, 18, &histIm1);
+		//std::cout << "IMAGE " << strVector[i] << std::endl;
+		cv::Mat testImage = cv::imread(path + path_resource + strVector[i]);
+		StixelTools::extractStixelFromBackground(testImage, &stixeis);
 
-	cv::imshow("RESIDUAL", histIm1);
+		std::vector<uint> hist = StixelTools::histogramAngleStixel2D(stixeis, 18);
 
-	cv::waitKey();
+		stixeis1 = StixelTools::getMaxBeanAngleIntevalsAdaptative(stixeis, hist, &residual);
+		std::vector<uint> hist1 = StixelTools::histogramAngleStixel2D(stixeis1, 18);
+		std::vector<uint> resid = StixelTools::histogramAngleStixel2D(residual, 18);
+		stixeis2 = StixelTools::getMaxBeanAngleIntevalsAdaptative(residual, resid, &residual2);
+		std::vector<uint> hist2 = StixelTools::histogramAngleStixel2D(stixeis2, 18);
+
+		BOOST_CHECK_EQUAL_COLLECTIONS(hist1.begin(), hist1.end(), vector1[i].begin(), vector1[i].end());
+		BOOST_CHECK_EQUAL_COLLECTIONS(hist2.begin(), hist2.end(), vector2[i].begin(), vector2[i].end());
+	}
 
 }
 
