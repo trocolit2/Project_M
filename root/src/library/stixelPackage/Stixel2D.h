@@ -43,6 +43,7 @@ private:
 public:
 
 	bool operator!=(const Stixel2D &other);
+	bool operator<(const Stixel2D &other);
 
 	friend std::ostream &operator<<(std::ostream &out,
 			const Stixel2D &stixel2D) {
