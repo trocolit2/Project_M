@@ -27,7 +27,7 @@ public:
 
     static std::vector<Stixel2D> getMaxBeanAngleIntevalsAdaptative(std::vector<Stixel2D> mainVector, std::vector<uint> histogram, std::vector<Stixel2D>* residualVector = 0);
 
-    static std::vector<cv::Point2f> convertStixeisToPoint(std::vector<Stixel2D> stixeis, uint numberOfCandidateStixeis, uint numberOfPoints);
+    static std::vector<cv::Point2f> convertStixeisToPoint(std::vector<Stixel2D> stixeis, uint numberOfCandidateStixeis, uint numberOfPoints, bool realRandon = false);
 
 private:
     static std::vector<std::vector<cv::Point> > filterByNumberPoints(std::vector<std::vector<cv::Point> > contours, uint64 numberPoints);

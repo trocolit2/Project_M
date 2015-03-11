@@ -348,21 +348,84 @@ BOOST_AUTO_TEST_CASE(getMaxBeanAngleIntevalsAdaptativeTestCase) {
 
 }
 
+BOOST_AUTO_TEST_CASE(convertStixeisToPointSimpleTesteCase) {
+
+    std::vector<Stixel2D> stixeis;
+
+    //good Stixel
+    stixeis.push_back(Stixel2D(cv::Point2f(2, 13), cv::Point2f(8, 8)));
+    stixeis.push_back(Stixel2D(cv::Point2f(8, 14), cv::Point2f(8, 2)));
+    stixeis.push_back(Stixel2D(cv::Point2f(2, 2), cv::Point2f(9, 9)));
+    stixeis.push_back(Stixel2D(cv::Point2f(8, 8), cv::Point2f(9, 5)));
+    stixeis.push_back(Stixel2D(cv::Point2f(8, 8), cv::Point2f(5, 1)));
+    stixeis.push_back(Stixel2D(cv::Point2f(0, 8), cv::Point2f(3, 8)));
+
+    //bad Stixel
+    stixeis.push_back(Stixel2D(cv::Point2f(13, 13), cv::Point2f(13, 4)));
+    stixeis.push_back(Stixel2D(cv::Point2f(1, 14), cv::Point2f(1, 8)));
+    stixeis.push_back(Stixel2D(cv::Point2f(4, 8), cv::Point2f(3, 4)));
+    stixeis.push_back(Stixel2D(cv::Point2f(8, 0), cv::Point2f(13, 2)));
+    stixeis.push_back(Stixel2D(cv::Point2f(4, 13), cv::Point2f(50, 4)));
+    stixeis.push_back(Stixel2D(cv::Point2f(1, 15), cv::Point2f(13, 5)));
+    stixeis.push_back(Stixel2D(cv::Point2f(12, 4), cv::Point2f(32, 21)));
+    stixeis.push_back(Stixel2D(cv::Point2f(13, 25), cv::Point2f(23, 12)));
+
+    float part = 0.3;
+
+    cv::Point pointGroundThruthMedian(11, 13);
+    std::vector<cv::Point2f> points = StixelTools::convertStixeisToPoint(stixeis, stixeis.size() * part, 50);
+    cv::Point medianPoint(0, 0);
+    for (uint i = 0; i < points.size(); ++i) {
+        medianPoint.x += points[i].x;
+        medianPoint.y += points[i].y;
+    }
+    medianPoint.x = medianPoint.x / points.size();
+    medianPoint.y = medianPoint.y / points.size();
+    BOOST_CHECK_EQUAL(pointGroundThruthMedian, medianPoint);
+
+    points = StixelTools::convertStixeisToPoint(stixeis, stixeis.size() * part, 50, true);
+    medianPoint = cv::Point(0, 0);
+
+    for (uint i = 0; i < points.size(); ++i) {
+        medianPoint.x += points[i].x;
+        medianPoint.y += points[i].y;
+    }
+    medianPoint.x = medianPoint.x / points.size();
+    medianPoint.y = medianPoint.y / points.size();
+    medianPoint = medianPoint - pointGroundThruthMedian;
+
+    BOOST_CHECK_EQUAL(true, medianPoint.x != 0 || medianPoint.y != 0);
+}
+
 BOOST_AUTO_TEST_CASE(convertStixeisToPointTesteCase) {
 
+    std::vector<Stixel2D> stixeis, stixeis1;
     std::string path = PATH_RELATIVE_ROOT_TESTBIN;
     std::string path_resource = STIXEL_RESOURCE_PATH;
     std::string inputPath = BACKGROUND_IMAGE_01;
 
     cv::Mat testImage = cv::imread(path + path_resource + inputPath);
-
-    float part = 0.4;
-
-    std::vector<Stixel2D> stixeis;
     StixelTools::extractStixelFromBackground(testImage, &stixeis);
     std::vector<uint> hist = StixelTools::histogramAngleStixel2D(stixeis, 18);
-    stixeis = StixelTools::getMaxBeanAngleIntevalsAdaptative(stixeis, hist);
-    StixelTools::convertStixeisToPoint(stixeis, stixeis.size() * part, 2);
+    stixeis1 = StixelTools::getMaxBeanAngleIntevalsAdaptative(stixeis, hist);
 
+    uint totalPoints = 100;
+    float part = 0.3;
+    std::vector<cv::Point2f> points = StixelTools::convertStixeisToPoint(stixeis, stixeis.size() * part, totalPoints);
+
+    cv::Mat matPoints(points);
+    uint imageSize = 1000;
+    cv::normalize(matPoints, matPoints, -1, 1, cv::NORM_L1,-1,cv::Mat());
+    std::cout << "MATRIX " << matPoints << std::endl;
+
+    cv::Mat3b imageTest = cv::Mat3b::zeros(imageSize, imageSize);
+    cv::Scalar color(0, 255, 0);
+    for (uint i = 0; i < totalPoints; ++i) {
+        cv::Point point(matPoints.at<float>(0, i) * imageSize / 2, matPoints.at<float>(1, i) * imageSize / 2);
+        cv::circle(imageTest, point, 3, color);
+    }
+
+    cv::imshow("TESTE", imageTest);
+    cv::waitKey();
 }
 
