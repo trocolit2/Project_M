@@ -5,3 +5,5 @@
 LIST
 - Corrigir os erros de precisão nos testes do StixelTools_test no MAC OS.
 - Corrigir os erros de BackGroundSubtraction_test no MAC OS.
+- Melhorar o metodo de convergência dos pontos
+- Desenvolver o método de detecção dos pontos de fuga
