@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE(convertStixeisToPointSimpleTesteCase) {
     float part = 0.3;
 
     cv::Point pointGroundThruthMedian(11, 13);
-    std::vector<cv::Point2f> points = VPTools::convertStixeisToPoint(stixeis, stixeis.size() * part, 50);
+    std::vector<cv::Point2f> points = VPTools::convergeStixeisToPoint(stixeis, stixeis.size() * part, 50);
     cv::Point medianPoint(0, 0);
     for (uint i = 0; i < points.size(); ++i) {
         medianPoint.x += points[i].x;
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE(convertStixeisToPointSimpleTesteCase) {
     medianPoint.y = medianPoint.y / points.size();
     BOOST_CHECK_EQUAL(pointGroundThruthMedian, medianPoint);
 
-    points = VPTools::convertStixeisToPoint(stixeis, stixeis.size() * part, 50, 15);
+    points = VPTools::convergeStixeisToPoint(stixeis, stixeis.size() * part, 50, 15);
     medianPoint = cv::Point(0, 0);
 
     for (uint i = 0; i < points.size(); ++i) {

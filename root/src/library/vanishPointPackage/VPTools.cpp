@@ -11,7 +11,7 @@
 #include <map>
 #include <vector>
 
-std::vector<cv::Point2f> VPTools::convertStixeisToPoint(std::vector<Stixel2D> stixeis, uint numberOfCandidateStixeis, uint numberOfPoints, uint seed) {
+std::vector<cv::Point2f> VPTools::convergeStixeisToPoint(std::vector<Stixel2D> stixeis, uint numberOfCandidateStixeis, uint numberOfPoints, uint seed) {
 
     std::vector<cv::Point2f> points;
 

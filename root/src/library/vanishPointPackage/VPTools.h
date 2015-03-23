@@ -15,7 +15,7 @@
 
 class VPTools {
 public:
-    static std::vector<cv::Point2f> convertStixeisToPoint(std::vector<Stixel2D> stixeis, uint numberOfCandidateStixeis, uint numberOfPoints, uint seed = 0);
+    static std::vector<cv::Point2f> convergeStixeisToPoint(std::vector<Stixel2D> stixeis, uint numberOfCandidateStixeis, uint numberOfPoints, uint seed = 0);
 };
 
 #endif /* SRC_LIBRARY_VANISHPOINTDETECTION_VPTOOLS_H_ */
