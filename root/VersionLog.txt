@@ -12,3 +12,6 @@ Correção de problema de compatibilidade do código
 Adicionado arquivo de TODO
 
 
+0.1.5
+Adição dos métodos de convergência e seus testes
+

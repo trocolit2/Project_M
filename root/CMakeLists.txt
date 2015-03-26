@@ -34,7 +34,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${bin_path})
 set(main_project_name "\"AS2C - Automatic Surveillance Camera Calibtration\"" )
 set(main_version 0)
 set(fuction_version 1)
-set(patch_release 4)
+set(patch_release 5)
 
 ## include CONFIGURE MAIN PATHS
 include_directories(${include_build_path})
