@@ -5,9 +5,9 @@
  *      Author: tiagotrocoli
  */
 
+#include <line2dtoolspackage/Line2DImageTools.h>
+#include <LineMathTools.h>
 #include <opencv2/imgproc/imgproc.hpp>
-#include <LineTools.h>
-#include "StixelTools.h"
 #include "lsd.h"
 
 #define minNumber
@@ -253,4 +253,19 @@ std::vector<Stixel2D> StixelTools::getMaxBeanAngleIntevalsAdaptative(std::vector
 
     //std::cout << "Interval " << intervalSize << std::endl;
     return gethistogramAngleInterval(mainVector, histogram, maxPosition.x, intervalSize, residualVector);
+}
+
+cv::Mat StixelTools::drawStixeis(std::vector<Stixel2D> stixeis, cv::Mat image) {
+
+    bool draw = image.cols > 4 && image.rows > 4 && image.channels() == 3;
+
+    cv::Mat mat;
+    if (draw)
+        image.copyTo(mat);
+    else
+        mat = cv::Mat::zeros(500, 500, CV_8UC3);
+
+    for (uint64 i = 0; i < stixeis.size(); ++i)
+        cv::line(mat, stixeis[i].getBottonPoint(), stixeis[i].getTopPoint(), LineTools::colorAngle(stixeis[i].getAngle()));
+    return mat;
 }

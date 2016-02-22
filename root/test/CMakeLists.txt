@@ -2,7 +2,7 @@
 ## TEST MAIN CMAKE ##
 #####################
 
-# include tools libraries from test cases
+#include tools libraries from test cases
 include_directories("tools")
 add_subdirectory("tools")
 
@@ -13,16 +13,16 @@ endif(APPLE)
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 include_directories (${Boost_INCLUDE_DIRS})
 
+##DEBUG CMAKE
 #get_cmake_property(_variableNames VARIABLES)
 #foreach (_variableName ${_variableNames})
 #    message(STATUS "${_variableName}=${${_variableName}}")
 #endforeach()
 
 #I like to keep test files in a separate source directory called test
-#file(GLOB TEST_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} VPTools_test.cpp)
-#file(GLOB TEST_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} LineTools_test.cpp)
+#file(GLOB TEST_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} StixelTools_test.cpp)
 file(GLOB TEST_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *test.cpp)
-##file(GLOB TEST_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *evaluation.cpp)
+#file(GLOB TEST_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *evaluation.cpp)
 
 # make all the tests bins
 foreach(testSrc ${TEST_FILES})

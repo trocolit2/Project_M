@@ -28,7 +28,7 @@
   ----------------------------------------------------------------------------*/
 
 /*----------------------------------------------------------------------------*/
-/** @file lsd.c
+/** @file lsd.cpp
     LSD module code
     @author rafael grompone von gioi <grompone@gmail.com>
  */
@@ -99,7 +99,7 @@
 #include <math.h>
 #include <limits.h>
 #include <float.h>
-#include "lsd.h"
+#include "Line2DImageDetector.h"
 
 /** ln(10) */
 #ifndef M_LN10

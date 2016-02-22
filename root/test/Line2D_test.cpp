@@ -6,7 +6,7 @@
  */
 #define BOOST_TEST_DYN_LINK
 //Define our Module name (prints at testing)
-#define BOOST_TEST_MODULE "Stixel2D_test"
+#define BOOST_TEST_MODULE "Line2D_test"
 //VERY IMPORTANT - include this last
 
 #include <vector>
@@ -18,10 +18,10 @@
 #include <boost/test/test_tools.hpp>
 #include <boost/test/unit_test_suite.hpp>
 
-#include <library/stixelPackage/Stixel2D.h>
-#include <library/stixelPackage/LineTools.h>
+#include <library/line2dtoolspackage/Line2D.h>
+#include <library/line2dtoolspackage/Line2DMathTools.h>
 
-BOOST_AUTO_TEST_CASE(initStixel2DTestCase) {
+BOOST_AUTO_TEST_CASE(initLine2DTestCase) {
 
 	std::vector<cv::Scalar> inputs;
 	inputs.push_back(cv::Scalar(0, 0, 0, 0));
@@ -38,18 +38,18 @@ BOOST_AUTO_TEST_CASE(initStixel2DTestCase) {
 			top = botton;
 			botton = temp;
 		}
-		cv::Scalar lineEquation = LineTools::calcLineEquation2D(top, botton);
-		Stixel2D stixel(top, botton);
+		cv::Scalar lineEquation = Line2DMathTools::calcLineEquation2D(top, botton);
+		Line2D line2D(top, botton);
 
-		BOOST_CHECK_EQUAL(stixel.getAngle(),
-				LineTools::calcAngle(lineEquation));
-		BOOST_CHECK_EQUAL(stixel.getSize(),
-				LineTools::calcLenghtFrom2Points(top, botton));
-		BOOST_CHECK_EQUAL(stixel.getLineEquation(), lineEquation);
-		BOOST_CHECK_EQUAL(stixel.getCenter(),
-				LineTools::calcCenterFrom2Points(top, botton));
-		BOOST_CHECK_EQUAL(stixel.getTopPoint(), top);
-		BOOST_CHECK_EQUAL(stixel.getBottonPoint(), botton);
+		BOOST_CHECK_EQUAL(line2D.angle(),
+				Line2DMathTools::calcAngle(lineEquation));
+		BOOST_CHECK_EQUAL(line2D.size(),
+				Line2DMathTools::calcLenghtFrom2Points(top, botton));
+		BOOST_CHECK_EQUAL(line2D.lineEquation(), lineEquation);
+		BOOST_CHECK_EQUAL(line2D.center(),
+				Line2DMathTools::calcCenterFrom2Points(top, botton));
+		BOOST_CHECK_EQUAL(line2D.topPoint(), top);
+		BOOST_CHECK_EQUAL(line2D.bottonPoint(), botton);
 	}
 }
 

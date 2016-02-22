@@ -11,7 +11,7 @@
 #include <boost/test/test_tools.hpp>
 #include <boost/test/unit_test_suite.hpp>
 #include <cmath>
-#include <library/stixelPackage/LineTools.h>
+#include <library/line2dtoolspackage/Line2DMathTools.h>
 
 #include <TestTools.h>
 
@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE(calcLineEquationLine2DTestCase) {
         //	std::cout << " GT = " << groundsTruths[i] << std::endl;
         cv::Point2d pt2(inputs[i][0], inputs[i][1]);
         cv::Point2d pt1(inputs[i][2], inputs[i][3]);
-        cv::Scalar output = LineTools::calcLineEquation2D(pt1, pt2);
+        cv::Scalar output = Line2DMathTools::calcLineEquation2D(pt1, pt2);
         BOOST_CHECK_EQUAL(groundsTruths[i], output);
 
     }
@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE(calcNormLineEquationLine2DTestCase) {
         groundsTruths[i];
         double norm = sqrt(groundsTruths[i][0] * groundsTruths[i][0] + groundsTruths[i][1] * groundsTruths[i][1]);
         cv::Scalar temp(groundsTruths[i][0] / norm, groundsTruths[i][1] / norm, groundsTruths[i][2] / norm);
-        cv::Scalar outLineEquation = LineTools::calcNormlizeLineEquation(groundsTruths[i]);
+        cv::Scalar outLineEquation = Line2DMathTools::calcNormlizeLineEquation(groundsTruths[i]);
         BOOST_CHECK_EQUAL(outLineEquation, temp);
 
     }
@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_CASE(calcAngleTestCase) {
     anglesGrountruth[5] = 66.515884709495126;
     double outAngle;
     for (uint i = 0; i < anglesGrountruth.size(); ++i) {
-        outAngle = LineTools::calcAngle(equationLines[i]);
+        outAngle = Line2DMathTools::calcAngle(equationLines[i]);
         //std::cout << " OUT ANGLE =" << outAngle << std::endl;
         BOOST_CHECK_EQUAL(anglesGrountruth[i], outAngle);
     }
@@ -106,7 +106,7 @@ BOOST_AUTO_TEST_CASE(calcCenterFrom2PointsTestCase) {
     for (uint i = 0; i < inputs.size(); ++i) {
         cv::Point2d pt1(inputs[i][0], inputs[i][1]);
         cv::Point2d pt2(inputs[i][2], inputs[i][3]);
-        outCenter = LineTools::calcCenterFrom2Points(pt1, pt2);
+        outCenter = Line2DMathTools::calcCenterFrom2Points(pt1, pt2);
         //std::cout << " OUT ANGLE =" << outCenter << std::endl;
         gtCenter.x = (pt1.x - pt2.x) / 2 + pt2.x;
         gtCenter.y = (pt1.y - pt2.y) / 2 + pt2.y;
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE(calcLenghtFrom2PointsTestCase) {
     for (uint i = 0; i < inputs.size(); ++i) {
         cv::Point2d pt1(inputs[i][0], inputs[i][1]);
         cv::Point2d pt2(inputs[i][2], inputs[i][3]);
-        outSize = LineTools::calcLenghtFrom2Points(pt1, pt2);
+        outSize = Line2DMathTools::calcLenghtFrom2Points(pt1, pt2);
         //std::cout << " OUT ANGLE =" << outSize << std::endl;
         size = (pt1.x - pt2.x) * (pt1.x - pt2.x);
         size += (pt1.y - pt2.y) * (pt1.y - pt2.y);
@@ -161,11 +161,11 @@ BOOST_AUTO_TEST_CASE(calcDistanceLine2PointTestCase) {
 
     for (uint i = 0; i < lines.size(); ++i) {
 
-        double out = LineTools::calcDistanceLine2Point(lines[i], points[i]);
+        double out = Line2DMathTools::calcDistanceLine2Point(lines[i], points[i]);
         BOOST_CHECK_EQUAL((uint )(out * precision), (uint )(distances[i] * precision));
 
         cv::Point2f outPoint;
-        out = LineTools::calcDistanceLine2Point(lines[i], points[i], &outPoint);
+        out = Line2DMathTools::calcDistanceLine2Point(lines[i], points[i], &outPoint);
         BOOST_CHECK_EQUAL((uint )(out * precision), (uint )(distances[i] * precision));
     }
 }

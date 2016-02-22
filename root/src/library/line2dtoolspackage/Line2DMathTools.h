@@ -1,5 +1,5 @@
 /*
- * LineTools.h
+ * Line2DMathTools.h
  *
  *  Created on: Dec 9, 2014
  *      Author: tiagotrocoli
@@ -10,7 +10,7 @@
 
 #include <opencv2/core/core.hpp>
 
-class LineTools {
+class Line2DMathTools {
 public:
 
     static cv::Scalar calcLineEquation2D(cv::Point2d point1, cv::Point2d point2);

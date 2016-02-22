@@ -1,15 +1,15 @@
 /*
- * LineTools.cpp
+ * Line2DMathTools.cpp
  *
  *  Created on: Dec 9, 2014
  *      Author: tiagotrocoli
  */
 
-#include <LineTools.h>
+#include <Line2DMathTools.h>
 #include <cmath>
 #include <iostream>
 
-cv::Scalar LineTools::calcLineEquation2D(cv::Point2d point1, cv::Point2d point2) {
+cv::Scalar Line2DMathTools::calcLineEquation2D(cv::Point2d point1, cv::Point2d point2) {
 
     double a, b, c;
     a = point2.x - point1.x;
@@ -26,21 +26,21 @@ cv::Scalar LineTools::calcLineEquation2D(cv::Point2d point1, cv::Point2d point2)
     return temp;
 }
 
-double LineTools::calcLenghtFrom2Points(cv::Point2f point1, cv::Point2f point2) {
+double Line2DMathTools::calcLenghtFrom2Points(cv::Point2f point1, cv::Point2f point2) {
     double size = (point1.x - point2.x) * (point1.x - point2.x);
     size += (point1.y - point2.y) * (point1.y - point2.y);
     size = sqrt(size);
     return size;
 }
 
-cv::Point2d LineTools::calcCenterFrom2Points(cv::Point2d point1, cv::Point2d point2) {
+cv::Point2d Line2DMathTools::calcCenterFrom2Points(cv::Point2d point1, cv::Point2d point2) {
     cv::Point2f center;
     center.x = (point1.x - point2.x) / 2 + point2.x;
     center.y = (point1.y - point2.y) / 2 + point2.y;
     return center;
 }
 
-double LineTools::calcAngle(cv::Scalar lineEuclidian) {
+double Line2DMathTools::calcAngle(cv::Scalar lineEuclidian) {
     double out = -1;
     if (lineEuclidian[1] == 0) {
         out = 90;
@@ -54,13 +54,13 @@ double LineTools::calcAngle(cv::Scalar lineEuclidian) {
     return out;
 }
 
-cv::Scalar LineTools::calcNormlizeLineEquation(cv::Scalar lineEquation) {
+cv::Scalar Line2DMathTools::calcNormlizeLineEquation(cv::Scalar lineEquation) {
     double norm = sqrt(lineEquation[0] * lineEquation[0] + lineEquation[1] * lineEquation[1]);
     cv::Scalar temp(lineEquation[0] / norm, lineEquation[1] / norm, lineEquation[2] / norm);
     return temp;
 }
 
-cv::Scalar LineTools::colorAngle(double angle) {
+cv::Scalar Line2DMathTools::colorAngle(double angle) {
 
     float r[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.00588235294117645, 0.02156862745098032, 0.03725490196078418, 0.05294117647058827,
@@ -112,7 +112,7 @@ cv::Scalar LineTools::colorAngle(double angle) {
     return cv::Scalar(255 * b[index], 255 * g[index], 255 * r[index]);
 }
 
-double LineTools::calcDistanceLine2Point(cv::Scalar line, cv::Point2f point, cv::Point2f* closePoint) {
+double Line2DMathTools::calcDistanceLine2Point(cv::Scalar line, cv::Point2f point, cv::Point2f* closePoint) {
 
     double distance;
     if (closePoint != 0) {
