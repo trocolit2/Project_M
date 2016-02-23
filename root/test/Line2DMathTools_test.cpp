@@ -4,15 +4,13 @@
 //VERY IMPORTANT - include this last
 
 #include <iostream>
-
-#include <vector>
+#include <cmath>
 
 #include <boost/test/unit_test.hpp>
 #include <boost/test/test_tools.hpp>
 #include <boost/test/unit_test_suite.hpp>
-#include <cmath>
-#include <library/line2dtoolspackage/Line2DMathTools.h>
 
+#include <library/line2dtoolspackage/Line2DMathTools.h>
 #include <TestTools.h>
 
 std::vector<cv::Scalar> groundsTruthPoints(std::vector<cv::Scalar> *inputs) {
