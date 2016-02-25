@@ -2,10 +2,11 @@
 ## LIBRARY MAIN CMAKE ##
 ########################
 
-add_library(VideoTools VideoTools.cpp VideoTools.h RegexStringTools.cpp RegexStringTools.h)
-add_library(BackGroundSubtraction_library BackGroundSubtraction.cpp BackGroundSubtraction.h)
+add_library(VideoTools VideoTools.cpp RegexStringTools.cpp)
+add_library(BackGroundSubtraction_library BackGroundSubtraction.cpp)
+add_library(Ransac_tool GenericRansac.cpp)
 
-set(SOURCE_LIBS_LOCAL VideoTools  BackGroundSubtraction_library)
+set(SOURCE_LIBS_LOCAL VideoTools  BackGroundSubtraction_library Ransac_tool)
 set(SOURCE_LIBS ${SOURCE_LIBS} ${SOURCE_LIBS_LOCAL})
 
 include_directories(backgroundSubtractionPackage)

@@ -51,8 +51,8 @@ fi
 if [ "$1" = "$var_test" ] || [ "$2" = "$var_test" ] || [ "$3" = "$var_test" ] || [ "$4" = "$var_test" ]
 then 
 	echo " ## Start Tests ## "
-	##make test ARGS="-V"
-	make test 
+	make test ARGS="-V"
+	#make test 
 	echo " ## Finished Tests## "
 fi
 
