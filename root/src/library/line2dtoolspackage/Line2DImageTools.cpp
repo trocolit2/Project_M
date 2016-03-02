@@ -7,10 +7,12 @@
 
 #include "Line2DImageTools.h"
 
-#include <opencv2/imgproc/imgproc.hpp>
+extern "C" {
+#include "lsd.h"
+}
 
+#include <opencv2/imgproc/imgproc.hpp>
 #include "Line2DMathTools.h"
-#include "Line2DImageDetector.h"
 
 cv::Mat Line2DImageTools::extractLine2DFromForeground(
     cv::Mat foreground, std::vector<Line2D>* stixeis, uint64 minPoints,
@@ -140,11 +142,6 @@ std::vector<uint> Line2DImageTools::histogramAngleLine2D(
       (*image) = drawHistogramAngleLine2D(histVector, image->size());
     else
       (*image) = drawHistogramAngleLine2D(histVector);
-
-    std::cout << "{" << histVector[0];
-    for (uint i = 1; i < histVector.size(); ++i)
-      std::cout << ", " << histVector[i];
-    std::cout << "}" << std::endl;
   }
 
   return histVector;

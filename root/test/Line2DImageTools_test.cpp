@@ -170,192 +170,220 @@ BOOST_AUTO_TEST_CASE(extractLine2DFromBackgroundCaseTest) {
 
 BOOST_AUTO_TEST_CASE(histogramAngleLine2DSimpleTestCase) {
 
-    std::vector<Line2D> lines;
-    lines.push_back(Line2D(cv::Point2d(0, 0), cv::Point2d(0, 1)));
-    lines.push_back(Line2D(cv::Point2d(0, 0), cv::Point2d(1, 0)));
-    lines.push_back(Line2D(cv::Point2d(0, 0), cv::Point2d(1, 1)));
-    lines.push_back(Line2D(cv::Point2d(0, 0), cv::Point2d(0, 1)));
-    lines.push_back(Line2D(cv::Point2d(0, 0), cv::Point2d(1, 0)));
-    lines.push_back(Line2D(cv::Point2d(0, 0), cv::Point2d(1, 1)));
+  std::vector<Line2D> lines;
+  lines.push_back(Line2D(cv::Point2d(0, 0), cv::Point2d(0, 1)));
+  lines.push_back(Line2D(cv::Point2d(0, 0), cv::Point2d(1, 0)));
+  lines.push_back(Line2D(cv::Point2d(0, 0), cv::Point2d(1, 1)));
+  lines.push_back(Line2D(cv::Point2d(0, 0), cv::Point2d(0, 1)));
+  lines.push_back(Line2D(cv::Point2d(0, 0), cv::Point2d(1, 0)));
+  lines.push_back(Line2D(cv::Point2d(0, 0), cv::Point2d(1, 1)));
 
-    std::vector<uint> out = Line2DImageTools::histogramAngleLine2D(lines, 18);
-    std::vector<uint> gtOut = { 2, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0 };
+  std::vector<uint> out = Line2DImageTools::histogramAngleLine2D(lines, 18);
+  std::vector<uint> gtOut = { 2, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0,
+      0 };
 
-    BOOST_CHECK_EQUAL_COLLECTIONS(out.begin(), out.end(), gtOut.begin(), gtOut.end());
+  BOOST_CHECK_EQUAL_COLLECTIONS(out.begin(), out.end(), gtOut.begin(),
+                                gtOut.end());
 }
 
 BOOST_AUTO_TEST_CASE(histogramAngleLine2DTestCase) {
 
-    std::vector<Line2D> lines;
-    std::string path = PATH_RELATIVE_ROOT_TESTBIN;
-    std::string path_resource = LINE2D_RESOURCE_PATH;
-    std::string input_path = BACKGROUND_IMAGE_01;
-    uint stixel_total = 0;
+  std::vector<Line2D> lines;
+  std::string path = PATH_RELATIVE_ROOT_TESTBIN;
+  std::string path_resource = LINE2D_RESOURCE_PATH;
+  std::string input_path = BACKGROUND_IMAGE_01;
+  uint stixel_total = 0;
 
-    cv::Mat test_image = cv::imread(path + path_resource + input_path);
-    Line2DImageTools::extractLine2DFromBackground(test_image, &lines);
+  cv::Mat test_image = cv::imread(path + path_resource + input_path);
+  Line2DImageTools::extractLine2DFromBackground(test_image, &lines);
 
-    std::vector<uint> out = Line2DImageTools::histogramAngleLine2D(lines, 18);
-    std::vector<uint> gt_out = { 119, 60, 17, 3, 4, 7, 6, 34, 327, 43, 3, 4, 2, 6, 4, 8, 39, 95 };
+  std::vector<uint> out = Line2DImageTools::histogramAngleLine2D(lines, 18);
+  std::vector<uint> gt_out = { 119, 60, 17, 3, 4, 7, 6, 34, 327, 43, 3, 4, 2, 6,
+      4, 8, 39, 95 };
 
-    stixel_total = lines.size();
+  stixel_total = lines.size();
 
-    for (uint i = 0; i < out.size(); ++i)
-        stixel_total -= out[i];
+  for (uint i = 0; i < out.size(); ++i)
+    stixel_total -= out[i];
 
-    BOOST_CHECK_EQUAL(0, stixel_total);
-    BOOST_CHECK_EQUAL_COLLECTIONS(out.begin(), out.end(), gt_out.begin(), gt_out.end());
+  BOOST_CHECK_EQUAL(0, stixel_total);
+  BOOST_CHECK_EQUAL_COLLECTIONS(out.begin(), out.end(), gt_out.begin(),
+                                gt_out.end());
 }
 
-//BOOST_AUTO_TEST_CASE(histogramAngleStixel2DDrawTestCase) {
-//
-//    std::vector<Stixel2D> stixeis1;
-//    std::string path = PATH_RELATIVE_ROOT_TESTBIN;
-//    std::string path_resource = STIXEL_RESOURCE_PATH;
-//    std::string inputPath = BACKGROUND_IMAGE_01;
-//
-////    cv::Mat testImage = cv::imread(path + path_resource + inputPath);
-//
-//    std::string tempPath = "/home/tiagotrocoli/Documents/Mestrado/datasets-tracking/pets_2007/S06-BAG_STEAL_2/3/";
-//    std::string fileName = "BACKGROUND_FOR_PAPER.jpeg";
-//    cv::Mat testImage = cv::imread(tempPath+fileName);
-//    StixelTools::extractStixelFromBackground(testImage, &stixeis1);
-//
-////    cv::Mat gtImageHist10Beans = cv::imread(path + path_resource + "histAngleStixel2D10Beans.jpeg");
-////    cv::Mat gtImageHist20Beans = cv::imread(path + path_resource + "histAngleStixel2D20Beans.jpeg");
-////    cv::Mat gtImageHist180Beans = cv::imread(path + path_resource + "histAngleStixel2D180Beans.jpeg");
-//
-//    cv::Mat bigImage(300, 180*5, CV_8UC3);
-//    std::string nameImage = "actualHistogram.jpeg";
-//
-//    StixelTools::histogramAngleStixel2D(stixeis1, 18, &bigImage);
-//    cv::imshow("HIST 18", bigImage);
-//    TestTools::writeImageJpeg(tempPath+"hist_18beans.jpg", bigImage);
-////    TestTools::writeImageJpeg(nameImage, bigImage);
-////    bigImage = cv::imread(nameImage);
-//
-////    cv::Scalar gtCheck = cv::sum(gtImageHist10Beans);
-////    cv::Scalar outCheck = cv::sum(bigImage);
-////
-////    BOOST_CHECK_EQUAL(gtCheck, outCheck);
-//
-//    StixelTools::histogramAngleStixel2D(stixeis1, 20, &bigImage);
-//    cv::imshow("HIST 20", bigImage);
-//    TestTools::writeImageJpeg(tempPath+"hist_20beans.jpg", bigImage);
-////    TestTools::writeImageJpeg(nameImage, bigImage);
-////    bigImage = cv::imread(nameImage);
-//
-////    gtCheck = cv::sum(gtImageHist20Beans);
-////    outCheck = cv::sum(bigImage);
-////
-////    BOOST_CHECK_EQUAL(gtCheck, outCheck);
-//
-//    StixelTools::histogramAngleStixel2D(stixeis1, 180, &bigImage);
-//    cv::imshow("HIST 180", bigImage);
-//    TestTools::writeImageJpeg(tempPath+"hist_180beans.jpg", bigImage);
-//    cv::waitKey();
-//    TestTools::writeImageJpeg(nameImage, bigImage);
-//    bigImage = cv::imread(nameImage);
-//
-//    gtCheck = cv::sum(gtImageHist180Beans);
-//    outCheck = cv::sum(bigImage);
-//
-//    BOOST_CHECK_EQUAL(gtCheck, outCheck);
-//}
+BOOST_AUTO_TEST_CASE(histogramAngleStixel2DDrawTestCase) {
 
-//BOOST_AUTO_TEST_CASE(gethistogramAngleIntervalTestCase) {
-//
-//    std::vector<Stixel2D> stixeis;
-//    std::string path = PATH_RELATIVE_ROOT_TESTBIN;
-//    std::string path_resource = STIXEL_RESOURCE_PATH;
-//    std::string inputPath = BACKGROUND_IMAGE_01;
-//
-//    cv::Mat testImage = cv::imread(path + path_resource + inputPath);
-//    StixelTools::extractStixelFromBackground(testImage, &stixeis);
-//
-//    std::vector<uint> hist = StixelTools::histogramAngleStixel2D(stixeis, 18, &testImage);
-//
-//    std::vector<Stixel2D> stixeis1, stixeis2, stixeis3, residual;
-//
-//    stixeis1 = StixelTools::gethistogramAngleInterval(stixeis, hist, 9, 2);
-//    stixeis2 = StixelTools::gethistogramAngleInterval(stixeis, hist, 0, 2);
-//    stixeis3 = StixelTools::gethistogramAngleInterval(stixeis, hist, 17, 2, &residual);
-//
-//    std::vector<uint> hist1 = StixelTools::histogramAngleStixel2D(stixeis1, 18);
-//    std::vector<uint> hist2 = StixelTools::histogramAngleStixel2D(stixeis2, 18);
-//    std::vector<uint> hist3 = StixelTools::histogramAngleStixel2D(stixeis3, 18);
-//    std::vector<uint> hist4 = StixelTools::histogramAngleStixel2D(residual, 18);
-//
-//    std::vector<uint> gtHist1 = { 0, 0, 0, 0, 0, 0, 0, 34, 327, 43, 3, 4, 0, 0, 0, 0, 0, 0 };
-//    std::vector<uint> gtHist2 = { 119, 60, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 39, 95 };
-//    std::vector<uint> gtHist3 = { 119, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 39, 95 };
-//    std::vector<uint> gtHist4 = { 0, 0, 17, 3, 4, 7, 6, 34, 327, 43, 3, 4, 2, 6, 4, 0, 0, 0 };
-//    BOOST_CHECK_EQUAL_COLLECTIONS(hist1.begin(), hist1.end(), gtHist1.begin(), gtHist1.end());
-//    BOOST_CHECK_EQUAL_COLLECTIONS(hist2.begin(), hist2.end(), gtHist2.begin(), gtHist2.end());
-//    BOOST_CHECK_EQUAL_COLLECTIONS(hist3.begin(), hist3.end(), gtHist3.begin(), gtHist3.end());
-//    BOOST_CHECK_EQUAL_COLLECTIONS(hist4.begin(), hist4.end(), gtHist4.begin(), gtHist4.end());
-//}
-//
-//BOOST_AUTO_TEST_CASE(getMaxBeanAngleIntevalTestCase) {
-//
-//    std::vector<Stixel2D> stixeis, stixeis1;
-//    std::string path = PATH_RELATIVE_ROOT_TESTBIN;
-//    std::string path_resource = STIXEL_RESOURCE_PATH;
-//    std::string inputPath = BACKGROUND_IMAGE_01;
-//
-//    cv::Mat testImage = cv::imread(path + path_resource + inputPath);
-//    StixelTools::extractStixelFromBackground(testImage, &stixeis);
-//
-//    std::vector<uint> hist = StixelTools::histogramAngleStixel2D(stixeis, 18);
-//
-//    stixeis1 = StixelTools::getMaxBeanAngleInteval(stixeis, hist, 4);
-//    std::vector<uint> hist1 = StixelTools::histogramAngleStixel2D(stixeis1, 18);
-//
-//    std::vector<uint> gtHist1 = { 0, 0, 0, 0, 4, 7, 6, 34, 327, 43, 3, 4, 2, 0, 0, 0, 0, 0 };
-//
-//    BOOST_CHECK_EQUAL_COLLECTIONS(gtHist1.begin(), gtHist1.end(), hist1.begin(), hist1.end());
-//}
-//
-//BOOST_AUTO_TEST_CASE(getMaxBeanAngleIntevalsAdaptativeTestCase) {
-//
-//    std::string path = PATH_RELATIVE_ROOT_TESTBIN;
-//    std::string path_resource = STIXEL_RESOURCE_PATH;
-//
-//    std::vector<std::string> strVector(4);
-//    strVector[0] = BACKGROUND_IMAGE_01;
-//    strVector[1] = BACKGROUND_IMAGE_02;
-//    strVector[2] = BACKGROUND_IMAGE_03;
-//    strVector[3] = BACKGROUND_IMAGE_04;
-//
-//    std::vector<std::vector<uint> > vector1(4);
-//    vector1[0]= {0, 0, 0, 0, 0, 0, 6, 34, 327, 43, 3, 0, 0, 0, 0, 0, 0, 0};
-//    vector1[1]= {0, 0, 0, 0, 0, 1, 1, 3, 100, 89, 10, 2, 0, 0, 0, 0, 0, 0};
-//    vector1[2]= {0, 0, 0, 0, 0, 0, 0, 3, 52, 182, 8, 5, 0, 0, 0, 0, 0, 0};
-//    vector1[3]= {0, 0, 0, 0, 0, 0, 0, 3, 36, 126, 8, 1, 0, 0, 0, 0, 0, 0};
-//
-//    std::vector<std::vector<uint> > vector2(4);
-//    vector2[0]= {119, 60, 17, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 39, 95};
-//    vector2[1]= {88, 14, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 78};
-//    vector2[2]= {83, 37, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 13, 75};
-//    vector2[3]= {105, 28, 21, 14, 5, 3, 2, 0, 0, 0, 0, 0, 3, 3, 5, 17, 20, 78};
-//
-//    for (uint i = 0; i < strVector.size(); ++i) {
-//        std::vector<Stixel2D> stixeis, stixeis1, stixeis2, residual, residual2;
-//
-//        //std::cout << "IMAGE " << strVector[i] << std::endl;
-//        cv::Mat testImage = cv::imread(path + path_resource + strVector[i]);
-//        StixelTools::extractStixelFromBackground(testImage, &stixeis);
-//
-//        std::vector<uint> hist = StixelTools::histogramAngleStixel2D(stixeis, 18);
-//
-//        stixeis1 = StixelTools::getMaxBeanAngleIntevalsAdaptative(stixeis, hist, &residual);
-//        std::vector<uint> hist1 = StixelTools::histogramAngleStixel2D(stixeis1, 18);
-//        std::vector<uint> resid = StixelTools::histogramAngleStixel2D(residual, 18);
-//        stixeis2 = StixelTools::getMaxBeanAngleIntevalsAdaptative(residual, resid, &residual2);
-//        std::vector<uint> hist2 = StixelTools::histogramAngleStixel2D(stixeis2, 18);
-//
-//        BOOST_CHECK_EQUAL_COLLECTIONS(hist1.begin(), hist1.end(), vector1[i].begin(), vector1[i].end());
-//        BOOST_CHECK_EQUAL_COLLECTIONS(hist2.begin(), hist2.end(), vector2[i].begin(), vector2[i].end());
-//    }
-//
-//}
+  std::vector<Line2D> extratected_lines;
+  std::string path = PATH_RELATIVE_ROOT_TESTBIN;
+  std::string path_resource = LINE2D_RESOURCE_PATH;
+  std::string inputPath = BACKGROUND_IMAGE_01;
+
+  cv::Mat testImage = cv::imread(path + path_resource + inputPath);
+
+  Line2DImageTools::extractLine2DFromBackground(testImage, &extratected_lines);
+
+  cv::Mat gtImageHist10Beans = cv::imread(
+      path + path_resource + "histAngleStixel2D10Beans.jpeg");
+  cv::Mat gtImageHist20Beans = cv::imread(
+      path + path_resource + "histAngleStixel2D20Beans.jpeg");
+  cv::Mat gtImageHist180Beans = cv::imread(
+      path + path_resource + "histAngleStixel2D180Beans.jpeg");
+
+  cv::Mat bigImage(640, 480, CV_8UC3);
+  std::string nameImage = "actualHistogram.jpeg";
+
+  // 10 beans
+  Line2DImageTools::histogramAngleLine2D(extratected_lines, 10, &bigImage);
+  cv::imshow("HIST 10", bigImage);
+
+  TestTools::writeImageJpeg(nameImage, bigImage);
+  bigImage = cv::imread(nameImage);
+
+  cv::Scalar gtCheck = cv::sum(gtImageHist10Beans);
+  cv::Scalar outCheck = cv::sum(bigImage);
+
+  BOOST_CHECK_EQUAL(gtCheck, outCheck);
+
+  // 20 beans
+  Line2DImageTools::histogramAngleLine2D(extratected_lines, 20, &bigImage);
+  cv::imshow("HIST 20", bigImage);
+
+  TestTools::writeImageJpeg(nameImage, bigImage);
+  bigImage = cv::imread(nameImage);
+
+  gtCheck = cv::sum(gtImageHist20Beans);
+  outCheck = cv::sum(bigImage);
+
+  BOOST_CHECK_EQUAL(gtCheck, outCheck);
+
+  // 180 beans
+  Line2DImageTools::histogramAngleLine2D(extratected_lines, 180, &bigImage);
+  cv::imshow("HIST 180", bigImage);
+  cv::waitKey();
+
+  TestTools::writeImageJpeg(nameImage, bigImage);
+  bigImage = cv::imread(nameImage);
+
+  gtCheck = cv::sum(gtImageHist180Beans);
+  outCheck = cv::sum(bigImage);
+
+  BOOST_CHECK_EQUAL(gtCheck, outCheck);
+}
+
+BOOST_AUTO_TEST_CASE(gethistogramAngleIntervalTestCase) {
+
+  std::vector<Line2D> stixeis;
+  std::string path = PATH_RELATIVE_ROOT_TESTBIN;
+  std::string path_resource = LINE2D_RESOURCE_PATH;
+  std::string inputPath = BACKGROUND_IMAGE_01;
+
+  cv::Mat testImage = cv::imread(path + path_resource + inputPath);
+  Line2DImageTools::extractLine2DFromBackground(testImage, &stixeis);
+
+  std::vector<uint> hist = Line2DImageTools::histogramAngleLine2D(stixeis, 18,
+                                                                  &testImage);
+
+  std::vector<Line2D> lines_1, lines_2, lines_3, residual;
+
+  lines_1 = Line2DImageTools::gethistogramAngleInterval(stixeis, hist, 9, 2);
+  lines_2 = Line2DImageTools::gethistogramAngleInterval(stixeis, hist, 0, 2);
+  lines_3 = Line2DImageTools::gethistogramAngleInterval(stixeis, hist, 17, 2,
+                                                        &residual);
+
+  std::vector<uint> hist1 = Line2DImageTools::histogramAngleLine2D(lines_1, 18);
+  std::vector<uint> hist2 = Line2DImageTools::histogramAngleLine2D(lines_2, 18);
+  std::vector<uint> hist3 = Line2DImageTools::histogramAngleLine2D(lines_3, 18);
+  std::vector<uint> hist4 = Line2DImageTools::histogramAngleLine2D(residual,
+                                                                   18);
+
+  std::vector<uint> gtHist1 = { 0, 0, 0, 0, 0, 0, 0, 34, 327, 43, 3, 4, 0, 0, 0,
+      0, 0, 0 };
+  std::vector<uint> gtHist2 = { 119, 60, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 39, 95 };
+  std::vector<uint> gtHist3 = { 119, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      8, 39, 95 };
+  std::vector<uint> gtHist4 = { 0, 0, 17, 3, 4, 7, 6, 34, 327, 43, 3, 4, 2, 6,
+      4, 0, 0, 0 };
+  BOOST_CHECK_EQUAL_COLLECTIONS(hist1.begin(), hist1.end(), gtHist1.begin(),
+                                gtHist1.end());
+  BOOST_CHECK_EQUAL_COLLECTIONS(hist2.begin(), hist2.end(), gtHist2.begin(),
+                                gtHist2.end());
+  BOOST_CHECK_EQUAL_COLLECTIONS(hist3.begin(), hist3.end(), gtHist3.begin(),
+                                gtHist3.end());
+  BOOST_CHECK_EQUAL_COLLECTIONS(hist4.begin(), hist4.end(), gtHist4.begin(),
+                                gtHist4.end());
+}
+
+BOOST_AUTO_TEST_CASE(getMaxBeanAngleIntevalTestCase) {
+
+  std::vector<Line2D> lines, lines_1;
+  std::string path = PATH_RELATIVE_ROOT_TESTBIN;
+  std::string path_resource = LINE2D_RESOURCE_PATH;
+  std::string inputPath = BACKGROUND_IMAGE_01;
+
+  cv::Mat testImage = cv::imread(path + path_resource + inputPath);
+  Line2DImageTools::extractLine2DFromBackground(testImage, &lines);
+
+  std::vector<uint> hist = Line2DImageTools::histogramAngleLine2D(lines, 18);
+
+  lines_1 = Line2DImageTools::getMaxBeanAngleInteval(lines, hist, 4);
+  std::vector<uint> hist1 = Line2DImageTools::histogramAngleLine2D(lines_1, 18);
+
+  std::vector<uint> gtHist1 = { 0, 0, 0, 0, 4, 7, 6, 34, 327, 43, 3, 4, 2, 0, 0,
+      0, 0, 0 };
+
+  BOOST_CHECK_EQUAL_COLLECTIONS(gtHist1.begin(), gtHist1.end(), hist1.begin(),
+                                hist1.end());
+}
+
+BOOST_AUTO_TEST_CASE(getMaxBeanAngleIntevalsAdaptativeTestCase) {
+
+  std::string path = PATH_RELATIVE_ROOT_TESTBIN;
+  std::string path_resource = LINE2D_RESOURCE_PATH;
+
+  std::vector<std::string> strVector(4);
+  strVector[0] = BACKGROUND_IMAGE_01;
+  strVector[1] = BACKGROUND_IMAGE_02;
+  strVector[2] = BACKGROUND_IMAGE_03;
+  strVector[3] = BACKGROUND_IMAGE_04;
+
+  std::vector<std::vector<uint> > vector1(4);
+  vector1[0]= {0, 0, 0, 0, 0, 0, 6, 34, 327, 43, 3, 0, 0, 0, 0, 0, 0, 0};
+  vector1[1]= {0, 0, 0, 0, 0, 1, 1, 3, 100, 89, 10, 2, 0, 0, 0, 0, 0, 0};
+  vector1[2]= {0, 0, 0, 0, 0, 0, 0, 3, 52, 182, 8, 5, 0, 0, 0, 0, 0, 0};
+  vector1[3]= {0, 0, 0, 0, 0, 0, 0, 3, 36, 126, 8, 1, 0, 0, 0, 0, 0, 0};
+
+  std::vector<std::vector<uint> > vector2(4);
+  vector2[0]= {119, 60, 17, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 39, 95};
+  vector2[1]= {88, 14, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 78};
+  vector2[2]= {83, 37, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 13, 75};
+  vector2[3]= {105, 28, 21, 14, 5, 3, 2, 0, 0, 0, 0, 0, 3, 3, 5, 17, 20, 78};
+
+  for (uint i = 0; i < strVector.size(); ++i) {
+    std::vector<Line2D> lines, lines_1, lines_2, residual, residual_2;
+
+    cv::Mat testImage = cv::imread(path + path_resource + strVector[i]);
+    Line2DImageTools::extractLine2DFromBackground(testImage, &lines);
+    std::vector<uint> hist = Line2DImageTools::histogramAngleLine2D(lines, 18);
+
+    lines_1 = Line2DImageTools::getMaxBeanAngleIntevalsAdaptative(lines, hist,
+                                                                  &residual);
+    std::vector<uint> hist1 = Line2DImageTools::histogramAngleLine2D(lines_1,
+                                                                     18);
+    std::vector<uint> resid = Line2DImageTools::histogramAngleLine2D(residual,
+                                                                     18);
+    lines_2 = Line2DImageTools::getMaxBeanAngleIntevalsAdaptative(residual,
+                                                                  resid,
+                                                                  &residual_2);
+
+    std::vector<uint> hist2 = Line2DImageTools::histogramAngleLine2D(lines_2,
+                                                                     18);
+
+    BOOST_CHECK_EQUAL_COLLECTIONS(hist1.begin(), hist1.end(),
+                                  vector1[i].begin(), vector1[i].end());
+
+    BOOST_CHECK_EQUAL_COLLECTIONS(hist2.begin(), hist2.end(),
+                                  vector2[i].begin(), vector2[i].end());
+  }
+
+}

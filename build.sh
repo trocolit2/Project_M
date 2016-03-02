@@ -43,7 +43,8 @@ fi
 if [ "$1" = "$var_make" ] || [ "$2" = "$var_make" ] || [ "$3" = "$var_make" ] || [ "$4" = "$var_make" ]  
 then
 	echo " ## Start make ## "
-	make -j8 
+	#make -j8 
+	make
 	echo " ## Finished make ## "
 fi
 
