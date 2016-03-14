@@ -259,7 +259,7 @@ BOOST_AUTO_TEST_CASE(histogramAngleStixel2DDrawTestCase) {
   // 180 beans
   Line2DImageTools::histogramAngleLine2D(extratected_lines, 180, &bigImage);
   cv::imshow("HIST 180", bigImage);
-  cv::waitKey();
+//  cv::waitKey();
 
   TestTools::writeImageJpeg(nameImage, bigImage);
   bigImage = cv::imread(nameImage);

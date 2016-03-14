@@ -1,5 +1,5 @@
 /*
- * StixelTools.cpp
+ * Line2DImageTools.cpp
  *
  *  Created on: Jan 20, 2015
  *      Author: tiagotrocoli
