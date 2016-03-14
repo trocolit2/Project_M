@@ -239,10 +239,12 @@ BOOST_AUTO_TEST_CASE(histogramAngleStixel2DDrawTestCase) {
   TestTools::writeImageJpeg(nameImage, bigImage);
   bigImage = cv::imread(nameImage);
 
-  cv::Scalar gtCheck = cv::sum(gtImageHist10Beans);
-  cv::Scalar outCheck = cv::sum(bigImage);
+  cv::Scalar gtCheck = cv::mean(gtImageHist10Beans);
+  cv::Scalar outCheck = cv::mean(bigImage);
 
-  BOOST_CHECK_EQUAL(gtCheck, outCheck);
+  BOOST_CHECK_CLOSE(gtCheck[0], outCheck[0], 0.1);
+  BOOST_CHECK_CLOSE(gtCheck[1], outCheck[1], 0.1);
+  BOOST_CHECK_CLOSE(gtCheck[2], outCheck[2], 0.1);
 
   // 20 beans
   Line2DImageTools::histogramAngleLine2D(extratected_lines, 20, &bigImage);
@@ -251,10 +253,12 @@ BOOST_AUTO_TEST_CASE(histogramAngleStixel2DDrawTestCase) {
   TestTools::writeImageJpeg(nameImage, bigImage);
   bigImage = cv::imread(nameImage);
 
-  gtCheck = cv::sum(gtImageHist20Beans);
-  outCheck = cv::sum(bigImage);
+  gtCheck = cv::mean(gtImageHist20Beans);
+  outCheck = cv::mean(bigImage);
 
-  BOOST_CHECK_EQUAL(gtCheck, outCheck);
+  BOOST_CHECK_CLOSE(gtCheck[0], outCheck[0], 0.1);
+  BOOST_CHECK_CLOSE(gtCheck[1], outCheck[1], 0.1);
+  BOOST_CHECK_CLOSE(gtCheck[2], outCheck[2], 0.1);
 
   // 180 beans
   Line2DImageTools::histogramAngleLine2D(extratected_lines, 180, &bigImage);
@@ -264,10 +268,12 @@ BOOST_AUTO_TEST_CASE(histogramAngleStixel2DDrawTestCase) {
   TestTools::writeImageJpeg(nameImage, bigImage);
   bigImage = cv::imread(nameImage);
 
-  gtCheck = cv::sum(gtImageHist180Beans);
-  outCheck = cv::sum(bigImage);
+  gtCheck = cv::mean(gtImageHist180Beans);
+  outCheck = cv::mean(bigImage);
 
-  BOOST_CHECK_EQUAL(gtCheck, outCheck);
+  BOOST_CHECK_CLOSE(gtCheck[0], outCheck[0], 0.1);
+  BOOST_CHECK_CLOSE(gtCheck[1], outCheck[1], 0.1);
+  BOOST_CHECK_CLOSE(gtCheck[2], outCheck[2], 0.1);
 }
 
 BOOST_AUTO_TEST_CASE(gethistogramAngleIntervalTestCase) {
