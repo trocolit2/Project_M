@@ -16,13 +16,13 @@
 class VanishingPointDetection {
 
  public:
-  virtual ~VanishingPointDetection()=0;
+  virtual ~VanishingPointDetection(){};
 
   std::vector<cv::Point2f> detectVanishingPoints(
       cv::Mat image, bool manhattan_world = true);
   virtual std::string methodName();
 
- private:
+ protected:
   virtual std::vector<cv::Point2f> applyDetectVP(cv::Mat image,
                                                  bool manhattan_world)=0;
 
